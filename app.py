@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 import requests
 from bs4 import BeautifulSoup
 from utils import check_zameny, find_str, refact_JSON
@@ -8,6 +8,11 @@ html = BeautifulSoup(page.content, 'lxml')
 
 
 app = Flask(__name__)
+
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 
 @app.route('/groups/<speciality>')
@@ -111,7 +116,11 @@ def api_timetable(groupname):
 
 @app.route("/week")
 def api_week():
-    week = html.find('span', class_='label label-info').text
+    week = ''
+    try:
+        week = html.find('span', class_='label label-info').text
+    except:
+        week = html.find('span', class_='label label-danger').text
     result = {
        'week': week
     }

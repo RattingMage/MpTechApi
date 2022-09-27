@@ -8,7 +8,11 @@ html = BeautifulSoup(page.content, 'lxml')
 def check_zameny(td):
     div = td.find('div')
     if div:
-        week = html.find('span', class_='label label-info').text
+        week = ''
+        try:
+            week = html.find('span', class_='label label-info').text
+        except:
+            week = html.find('span', class_='label label-danger').text
         if week == 'Числитель':
             return td.find('div', class_='label label-danger').text.strip()
         else:

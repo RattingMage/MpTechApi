@@ -25,7 +25,7 @@ def api_groups(speciality):
                 group.remove('')
             except:
                 pass
-        return jsonify(group)
+        return jsonify({"groups": group})
     if speciality ==  '09.02.06':
         group = groups[2].text.split('\n')
         for i in range(len(group)):
@@ -33,7 +33,7 @@ def api_groups(speciality):
                 group.remove('')
             except:
                 pass
-        return jsonify(group)
+        return jsonify({"groups": group})
     if speciality ==  '09.02.07':
         group = groups[3].text.split('\n')
         for i in range(len(group)):
@@ -41,7 +41,7 @@ def api_groups(speciality):
                 group.remove('')
             except:
                 pass
-        return jsonify(group)
+        return jsonify({"groups": group})
     if speciality == '10.02.03':
         group = groups[4].text.split('\n')
         for i in range(len(group)):
@@ -49,7 +49,7 @@ def api_groups(speciality):
                 group.remove('')
             except:
                 pass
-        return jsonify(group)
+        return jsonify({"groups": group})
     if speciality == '10.02.05':
         group = groups[5].text.split('\n')
         for i in range(len(group)):
@@ -57,7 +57,7 @@ def api_groups(speciality):
                 group.remove('')
             except:
                 pass
-        return jsonify(group)
+        return jsonify({"groups": group})
     if speciality == '40.02.01':
         group = groups[6].text.split('\n')
         for i in range(len(group)):
@@ -65,7 +65,7 @@ def api_groups(speciality):
                 group.remove('')
             except:
                 pass
-        return jsonify(group)
+        return jsonify({"groups": group})
     if speciality == 'Popuski':
         group = groups[7].text.split('\n')
         for i in range(len(group)):
@@ -73,7 +73,7 @@ def api_groups(speciality):
                 group.remove('')
             except:
                 pass
-        return jsonify(group)
+        return jsonify({"groups": group})
 
 
 @app.route("/timetable/<groupname>")

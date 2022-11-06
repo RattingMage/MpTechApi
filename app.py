@@ -37,66 +37,32 @@ class SpecialitiesView(Resource):
             "specialities": specialities
         }
 
+
 @groups_ns.route('/<speciality>')
 class GroupsView(Resource):
     def get(self, speciality):
-        groups = html.find_all("ul", role="tablist", class_='nav nav-tabs')
-        if speciality == '09.02.01':
-            group = groups[1].text.split('\n')
-            for i in range(len(group)):
-                try:
-                    group.remove('')
-                except:
-                    pass
-            return jsonify({"groups": group})
-        if speciality == '09.02.06':
-            group = groups[2].text.split('\n')
-            for i in range(len(group)):
-                try:
-                    group.remove('')
-                except:
-                    pass
-            return jsonify({"groups": group})
-        if speciality == '09.02.07':
-            group = groups[3].text.split('\n')
-            for i in range(len(group)):
-                try:
-                    group.remove('')
-                except:
-                    pass
-            return jsonify({"groups": group})
-        if speciality == '10.02.03':
-            group = groups[4].text.split('\n')
-            for i in range(len(group)):
-                try:
-                    group.remove('')
-                except:
-                    pass
-            return jsonify({"groups": group})
-        if speciality == '10.02.05':
-            group = groups[5].text.split('\n')
-            for i in range(len(group)):
-                try:
-                    group.remove('')
-                except:
-                    pass
-            return jsonify({"groups": group})
-        if speciality == '40.02.01':
-            group = groups[6].text.split('\n')
-            for i in range(len(group)):
-                try:
-                    group.remove('')
-                except:
-                    pass
-            return jsonify({"groups": group})
-        if speciality == 'Popuski':
-            group = groups[7].text.split('\n')
-            for i in range(len(group)):
-                try:
-                    group.remove('')
-                except:
-                    pass
-            return jsonify({"groups": group})
+        if speciality == "Popuski":
+            speciality = "Отделение первого курса"
+        response = []
+        specs = html.find_all("li", role="presentation")
+        actual_href = []
+        for i in specs:
+            if speciality == i.text:
+                a = i.find_next("a")
+                actual_href = a.get("href").replace("#", "")
+        actual_div = html.find("div", id=actual_href)
+        ul = actual_div.find_next("ul")
+        all_li = ul.children
+        for li in all_li:
+            response.append(li.next_element.text.replace("\n", ""))
+        for i in response:
+            try:
+                response.remove("")
+            except:
+                pass
+        return {
+            "groups": response
+        }
 
 
 @timetable_ns.route("/<groupname>")

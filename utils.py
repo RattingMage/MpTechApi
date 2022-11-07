@@ -5,10 +5,30 @@ page = requests.get('https://mpt.ru/studentu/raspisanie-zanyatiy/')
 html = BeautifulSoup(page.content, 'lxml')
 
 
-def check_zameny(td):
+def check_zameny_sub(td):
     div = td.find('div')
     if div:
-        week = ''
+        try:
+            week = html.find('span', class_='label label-info').text
+        except:
+            week = html.find('span', class_='label label-danger').text
+        if week == 'Числитель':
+            return {
+                "week": week,
+                "sub": td.find('div', class_='label label-danger').text.strip()
+            }
+        else:
+            return {
+                "week": week,
+                "sub": td.find('div', class_='label label-info').text.strip()
+            }
+    else:
+        return td.text
+
+
+def check_zameny_tech(td):
+    div = td.find('div')
+    if div:
         try:
             week = html.find('span', class_='label label-info').text
         except:
@@ -27,17 +47,17 @@ def find_str(stroka):
         Day = stroka[:i]
         Place = stroka[i:]
         return {
-                'day': Day,
-                'place': Place
-                }
+            'day': Day,
+            'place': Place
+        }
     elif stroka.find('Нежинская') != -1:
         i = stroka.find('Нежинская')
         Day = stroka[:i]
         Place = stroka[i:]
         return {
-                'day': Day,
-                'place': Place
-                }
+            'day': Day,
+            'place': Place
+        }
     else:
         return "День не найден"
 
@@ -61,7 +81,7 @@ def refact_JSON(untimetable):
             days.append(day['Info']['day'])
             subjects.append(day['Timetable'])
     dct2 = {
-        'info': untimetable[len(untimetable)-1]['Info']
+        'info': untimetable[len(untimetable) - 1]['Info']
     }
     subjects2 = []
     for day in untimetable:

@@ -1,8 +1,8 @@
 import requests
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify
 from flask_restx import Api, Namespace, Resource
 from bs4 import BeautifulSoup
-from utils import check_zameny, find_str, refact_JSON
+from utils import check_zameny_sub, check_zameny_tech, find_str, refact_JSON
 
 page = requests.get('https://mpt.ru/studentu/raspisanie-zanyatiy/')
 html = BeautifulSoup(page.content, 'lxml')
@@ -82,9 +82,9 @@ class TimetableViews(Resource):
                 if i == 0:
                     dct['Number'] = tds[i].text
                 if i == 1:
-                    dct['Subject'] = check_zameny(tds[i])
+                    dct['Subject'] = check_zameny_sub(tds[i])
                 if i == 2:
-                    dct['Teacher'] = check_zameny(tds[i])
+                    dct['Teacher'] = check_zameny_tech(tds[i])
                     dct2['Info'] = find_str(table.find('h4').text.replace('\n', ''))
                     dct2['Timetable'] = dct
                     JSON.append(dct2)
@@ -93,9 +93,9 @@ class TimetableViews(Resource):
                 if i % 3 == 0:
                     dct['Number'] = tds[i].text
                 if i % 3 == 1:
-                    dct['Subject'] = check_zameny(tds[i])
+                    dct['Subject'] = check_zameny_sub(tds[i])
                 if i % 3 == 2 and i != 2:
-                    dct['Teacher'] = check_zameny(tds[i])
+                    dct['Teacher'] = check_zameny_tech(tds[i])
                     dct2['Info'] = find_str(table.find('h4').text.replace('\n', ''))
                     dct2['Timetable'] = dct
                     JSON.append(dct2)

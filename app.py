@@ -41,7 +41,7 @@ class SpecialitiesView(Resource):
 @groups_ns.route('/<speciality>')
 class GroupsView(Resource):
     def get(self, speciality):
-        if speciality == "Popuski":
+        if speciality == "popuski":
             speciality = "Отделение первого курса"
         response = []
         specs = html.find_all("li", role="presentation")
@@ -80,24 +80,24 @@ class TimetableViews(Resource):
             dct2 = {}
             for i in range(len(tds)):
                 if i == 0:
-                    dct['Number'] = tds[i].text
+                    dct['number'] = tds[i].text
                 if i == 1:
-                    dct['Subject'] = check_zameny_sub(tds[i])
+                    dct['subject'] = check_zameny_sub(tds[i])
                 if i == 2:
-                    dct['Teacher'] = check_zameny_tech(tds[i])
-                    dct2['Info'] = find_str(table.find('h4').text.replace('\n', ''))
-                    dct2['Timetable'] = dct
+                    dct['teacher'] = check_zameny_tech(tds[i])
+                    dct2['info'] = find_str(table.find('h4').text.replace('\n', ''))
+                    dct2['timetable'] = dct
                     JSON.append(dct2)
                     dct = {}
                     dct2 = {}
                 if i % 3 == 0:
-                    dct['Number'] = tds[i].text
+                    dct['number'] = tds[i].text
                 if i % 3 == 1:
-                    dct['Subject'] = check_zameny_sub(tds[i])
+                    dct['subject'] = check_zameny_sub(tds[i])
                 if i % 3 == 2 and i != 2:
-                    dct['Teacher'] = check_zameny_tech(tds[i])
-                    dct2['Info'] = find_str(table.find('h4').text.replace('\n', ''))
-                    dct2['Timetable'] = dct
+                    dct['teacher'] = check_zameny_tech(tds[i])
+                    dct2['info'] = find_str(table.find('h4').text.replace('\n', ''))
+                    dct2['timetable'] = dct
                     JSON.append(dct2)
                     dct = {}
                     dct2 = {}

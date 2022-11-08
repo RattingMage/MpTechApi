@@ -1,5 +1,5 @@
 import requests
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_restx import Api, Namespace, Resource
 from bs4 import BeautifulSoup
 from utils import check_zameny_sub, check_zameny_tech, find_str, refact_JSON
@@ -65,9 +65,10 @@ class GroupsView(Resource):
         }
 
 
-@timetable_ns.route("/<groupname>")
+@timetable_ns.route("/")
 class TimetableViews(Resource):
-    def get(self, groupname):
+    def get(self):
+        groupname = request.args.get("groupname")
         group = html.find("a", string=groupname)
         href = group.get('href')
         href = href[1::]

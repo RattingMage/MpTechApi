@@ -18,12 +18,16 @@ def check_zameny_sub(td):
                 "sub": td.find('div', class_='label label-danger').text.strip()
             }
         else:
-            return{
+            return {
                 "week": week,
                 "sub": td.find('div', class_='label label-info').text.strip()
             }
     else:
-        return td.text
+        return {
+            "week": None,
+            "sub": td.text
+        }
+
 
 def check_zameny_tech(td):
     div = td.find('div')
@@ -46,17 +50,17 @@ def find_str(stroka):
         Day = stroka[:i]
         Place = stroka[i:]
         return {
-                'day': Day,
-                'place': Place
-                }
+            'day': Day,
+            'place': Place
+        }
     elif stroka.find('Нежинская') != -1:
         i = stroka.find('Нежинская')
         Day = stroka[:i]
         Place = stroka[i:]
         return {
-                'day': Day,
-                'place': Place
-                }
+            'day': Day,
+            'place': Place
+        }
     else:
         return "День не найден"
 
@@ -80,7 +84,7 @@ def refact_JSON(untimetable):
             days.append(day['info']['day'])
             subjects.append(day['timetable'])
     dct2 = {
-        'info': untimetable[len(untimetable)-1]['info']
+        'info': untimetable[len(untimetable) - 1]['info']
     }
     subjects2 = []
     for day in untimetable:
